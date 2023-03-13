@@ -1,3 +1,4 @@
+// 配置ts代码
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'

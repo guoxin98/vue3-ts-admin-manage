@@ -11,5 +11,8 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
-  }
+  },
+  "vue/multi-word-component-names": ["error", {
+    "ignores": ["demo"] // demo是组件名称，可以添加多个
+  }]
 }
