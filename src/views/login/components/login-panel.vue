@@ -11,7 +11,7 @@
               <span class="ML5">账号登录</span>
             </span>
           </template>
-          <panel-account />
+          <panel-account ref="accountRef" :isRemPwd="isRemPwd" />
         </el-tab-pane>
         <!-- 手机登录 -->
         <el-tab-pane name="phone">
@@ -26,7 +26,7 @@
       </el-tabs>
     </div>
     <div class="controls">
-      <el-checkbox v-model="isRememberPwd" label="记住密码" />
+      <el-checkbox v-model="isRemPwd" label="记住密码" />
       <el-button v-model="isForgetPwd" type="text">忘记密码</el-button>
     </div>
     <el-button class="login-btn" type="primary" @click="handleClickLogin">立即登录</el-button>
@@ -37,12 +37,19 @@
 import PanelAccount from './panel-account.vue'
 import PanelPhone from './panel-phone.vue'
 
-import { ref } from 'vue'
-const isRememberPwd = ref(false)
+import { ref, watch } from 'vue'
+import { localCache } from '@/utils/cache'
+const isRemPwd = ref(localCache.getCache('isRemPwd') ?? false)
+watch(isRemPwd, (nv) => {
+  localCache.setCache('isRemPwd', nv)
+})
 const isForgetPwd = ref(false)
 const activeName = ref<string>('account')
+const accountRef = ref<InstanceType<typeof PanelAccount>>()
 function handleClickLogin() {
-  console.log('立即登录：', activeName.value)
+  if (activeName.value === 'account') {
+    accountRef.value!.loginAction(isRemPwd.value)
+  }
 }
 </script>
 
@@ -59,7 +66,7 @@ function handleClickLogin() {
   .tabs {
     width: 100%;
     margin-top: 10px;
-    /deep/ .el-tabs__content {
+    :deep(.el-tabs__content) {
       padding: 25px;
     }
   }
