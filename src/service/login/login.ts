@@ -7,3 +7,17 @@ export function accountLoginRequest(account: any) {
     data: account
   })
 }
+export function getUserInfoById(id: number) {
+  // return hyRequest.get({
+  //   url: '/user',
+  //   params: id
+  // })
+  return hyRequest.get({
+    url: `/users/${id}`
+  })
+}
+export function getUserRoleById(id: number) {
+  return hyRequest.get({
+    url: `/role/${id}/menu`
+  })
+}
